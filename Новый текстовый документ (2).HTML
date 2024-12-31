@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Расчёт времени</title>
+    <title>Калькулятор времени</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,8 +21,11 @@
             padding: 10px;
             text-align: center;
         }
-        input[type="number"], input[type="time"] {
+        input[type="number"], input[type="time"], input[type="text"] {
             width: 80px;
+        }
+        input[type="text"] {
+            width: 120px;
         }
         .btn {
             padding: 10px 15px;
@@ -66,6 +69,7 @@
             const row = document.createElement("tr");
 
             row.innerHTML = `
+                <td><input type="text" class="name" placeholder="Название"></td>
                 <td><input type="time" class="current-time" value="${new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}"></td>
                 <td><input type="number" class="interval" placeholder="Интервал"></td>
                 <td class="next-time">--:--</td>
@@ -80,6 +84,7 @@
     <table>
         <thead>
             <tr>
+                <th>Название</th>
                 <th>Текущее время</th>
                 <th>Интервал (минуты)</th>
                 <th>Следующее время</th>
@@ -88,6 +93,7 @@
         </thead>
         <tbody id="time-table">
             <tr>
+                <td><input type="text" class="name" placeholder="Название"></td>
                 <td><input type="time" class="current-time" value="${new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}"></td>
                 <td><input type="number" class="interval" placeholder="Интервал"></td>
                 <td class="next-time">--:--</td>
