@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расчёт времени</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        input[type="number"], input[type="time"] {
+            width: 80px;
+        }
+        .btn {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function calculateNextTime(row) {
+            const currentTimeInput = row.querySelector(".current-time");
+            const intervalInput = row.querySelector(".interval");
+            const nextTimeOutput = row.querySelector(".next-time");
+
+            const currentTime = currentTimeInput.value;
+            const interval = parseInt(intervalInput.value, 10);
+
+            if (!currentTime || isNaN(interval)) {
+                nextTimeOutput.textContent = "Некорректные данные";
+                return;
+            }
+
+            const [hours, minutes] = currentTime.split(":").map(Number);
+            const currentDate = new Date();
+            currentDate.setHours(hours, minutes, 0);
+
+            currentDate.setMinutes(currentDate.getMinutes() + interval);
+
+            const nextHours = String(currentDate.getHours()).padStart(2, "0");
+            const nextMinutes = String(currentDate.getMinutes()).padStart(2, "0");
+
+            nextTimeOutput.textContent = `${nextHours}:${nextMinutes}`;
+        }
+
+        function addRow() {
+            const table = document.getElementById("time-table");
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td><input type="time" class="current-time" value="${new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}"></td>
+                <td><input type="number" class="interval" placeholder="Интервал"></td>
+                <td class="next-time">--:--</td>
+                <td><button class="btn" onclick="calculateNextTime(this.closest('tr'))">Рассчитать</button></td>
+            `;
+            table.appendChild(row);
+        }
+    </script>
+</head>
+<body>
+    <h1>Калькулятор времени</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Текущее время</th>
+                <th>Интервал (минуты)</th>
+                <th>Следующее время</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody id="time-table">
+            <tr>
+                <td><input type="time" class="current-time" value="${new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}"></td>
+                <td><input type="number" class="interval" placeholder="Интервал"></td>
+                <td class="next-time">--:--</td>
+                <td><button class="btn" onclick="calculateNextTime(this.closest('tr'))">Рассчитать</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn" onclick="addRow()">Добавить строку</button>
+</body>
+</html>
